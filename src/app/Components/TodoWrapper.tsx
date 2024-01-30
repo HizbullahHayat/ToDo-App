@@ -2,56 +2,52 @@
 import React, { useState } from "react";
 import Todo from "./Todo";
 import { v4 as uuidv4 } from "uuid";
-import { TodoT } from "../Types/types";
+import { TodoForm } from "./TodoForm";
 import EditTodo from "./EditTodo";
-import {TodoItems} from "./List";
+import { TodoT } from "../Types/types";
 uuidv4();
 
 export default function TodoWrapper() {
   const [todos, setTodos] = useState<TodoT[]>([]);
-
-  const addTodo = (todo:string) => {
+  const addTodo = (todo: string) => {
     setTodos([
       ...todos,
       { id: uuidv4(), task: todo, completed: false, isEditing: false },
     ]);
-    console.log(todos)
+    console.log(todos);
   };
+
   const toggleComplete = (id: string) => {
     setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
-      )
+      todos.map((i) => (i.id === id ? { ...i, completed: !i.completed } : i))
     );
   };
-  const deleteTodo = (id:string) => {
-    const newTodo = todos.filter((todo) => todo.id !== id);
-    setTodos(newTodo);
-  };
-  const editTodo = (id:string) => {
+
+  const editTodo = (id: string) => {
     setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, isEditing: !todo.isEditing } : todo
-      )
+      todos.map((i) => (i.id === id ? { ...i, isEditing: !i.isEditing } : i))
     );
   };
-  const editTask = (id:string, task:string) => {
+  const deleteTodo = (id: string) => {
+    setTodos(todos.filter((i) => i.id !== id));
+  };
+  const editTask = (task: string, id: string) => {
     setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, task, isEditing: !todo.isEditing } : todo
+      todos.map((i) =>
+        i.id === id ? { ...i, task, isEditing: !i.isEditing } : i
       )
     );
   };
+
   return (
     <div>
-      {/* <h1>Get things done.......</h1> */}
-
+      <h1 className='text-white text-center mb-4 text-3xl  font-bold '>Todos List</h1>
       <Todo addTodo={addTodo} />
       {todos.map((todo) =>
         todo.isEditing ? (
           <EditTodo key={todo.id} editTask={editTask} task={todo} />
         ) : (
-          <TodoItems
+          <TodoForm
             key={todo.id}
             task={todo}
             toggleComplete={toggleComplete}

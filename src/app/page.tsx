@@ -1,9 +1,9 @@
 import TodoWrapper from './Components/TodoWrapper'
+
 export default function Home() {
   return (
-    <>
-   {/* <h1>Here are my todos app</h1> */}
-   <TodoWrapper/>
-   </>
+    <div className='w-full min-h-screen flex justify-center items-center bg-zinc-800'>
+      <TodoWrapper/>
+   </div>
   )
 }
